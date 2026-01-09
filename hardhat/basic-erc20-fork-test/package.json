@@ -6,7 +6,7 @@
   "scripts": {
     "compile": "hardhat compile",
     "test": "hardhat test",
-    "deploy: testnet": "hardhat run scripts/deploy.ts --network hederaTestnet"
+    "deploy:testnet": "hardhat run scripts/deploy.ts --network hederaTestnet"
   },
   "license": "MIT",
   "devDependencies": {
