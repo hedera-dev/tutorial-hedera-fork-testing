@@ -1,0 +1,20 @@
+{
+  "lib/forge-std": {
+    "tag": {
+      "name": "v1.14.0",
+      "rev": "1801b0541f4fda118a10798fd3486bb7051c5dd6"
+    }
+  },
+  "lib/hedera-forking": {
+    "tag": {
+      "name": "v0.1.2",
+      "rev": "1de85d382e44170f974cb6de2ff211fecbc88b37"
+    }
+  },
+  "lib/openzeppelin-contracts": {
+    "tag": {
+      "name": "v5.5.0",
+      "rev": "fcbae5394ae8ad52d8e580a3477db99814b9d565"
+    }
+  }
+}
