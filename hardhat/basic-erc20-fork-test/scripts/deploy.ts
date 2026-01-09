@@ -26,7 +26,7 @@ async function main(): Promise<void> {
   console.log("\n=== IMPORTANT ===");
   console.log("Save this contract address for your fork tests!");
   console.log(
-    "Update blockNumber in hardhat. config.ts to >=",
+    "Update blockNumber in hardhat.config.ts to >=",
     blockNumber,
     "when forking"
   );
