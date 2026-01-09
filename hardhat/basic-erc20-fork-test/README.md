@@ -184,7 +184,7 @@ npx hardhat vars list  # Verify they're set
 - [Hedera Forking Repository](https://github.com/hashgraph/hedera-forking)
 - [Hardhat Documentation](https://hardhat.org/docs)
 - [Hedera Documentation](https://docs.hedera.com/)
-- [Tutorial: Forking Hedera Network for Local Testing](https://docs.hedera.com/hedera/tutorials/smart-contracts/how-to-fork-the-hedera-network-with-hardhat-basic-erc20)
+- [Tutorial: Forking Hedera Network for Local Testing - Basic ERC-20](https://docs.hedera.com/hedera/tutorials/smart-contracts/how-to-fork-the-hedera-network-with-hardhat-basic-erc20)
 
 ## License
 
