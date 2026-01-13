@@ -63,6 +63,8 @@ HEDERA_RPC_URL=https://testnet.hashio.io/api
 HEDERA_PRIVATE_KEY=0x-your-hex-encoded-private-key
 ```
 
+Note that these variables will only be used for the original deployment of the contract to the testnet. The private key is not needed for the forked tests since we will be impersonating accounts.
+
 Load the environment variables:
 
 ```bash
@@ -245,10 +247,6 @@ solc = "0.8.33"
 
 [rpc_endpoints]
 testnet = "${HEDERA_RPC_URL}"
-
-[profile.default.fuzz]
-runs = 10
-max_test_rejects = 65536
 ```
 
 ## Dependencies
