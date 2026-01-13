@@ -3,6 +3,7 @@ import { ethers, network } from "hardhat";
 import { loadFixture } from "@nomicfoundation/hardhat-toolbox/network-helpers";
 import { HTSTokenManager } from "../typechain-types";
 import { HardhatEthersSigner } from "@nomicfoundation/hardhat-ethers/signers";
+import { ContractTransactionReceipt } from 'ethers';
 
 // HTS Success response code
 const SUCCESS = 22n;
@@ -76,7 +77,7 @@ describe("HTSTokenManager - HTS Forking Tests", function () {
   /**
    * Helper function to get response code from receipt
    */
-  function getResponseCodeFromReceipt(receipt: any): bigint | null {
+  function getResponseCodeFromReceipt(receipt: ContractTransactionReceipt | null): bigint | null {
     const responseEvent = receipt?.logs.find((log: any) => {
       try {
         const parsed = htsManager.interface.parseLog({
