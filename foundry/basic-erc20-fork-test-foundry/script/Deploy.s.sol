@@ -10,7 +10,7 @@ contract DeployScript is Script {
         address deployer = vm.addr(deployerPrivateKey);
 
         console.log("Deploying contracts with the account:", deployer);
-        console.log("Account balance:", deployer.balance);
+        console.log("Account balance:", deployer.balance / 1e18, "HBAR");
 
         vm.startBroadcast(deployerPrivateKey);
 
@@ -21,9 +21,13 @@ contract DeployScript is Script {
 
         console.log("ERC20Token deployed to:", address(token));
         console.log(
-            "View on HashScan:  https://hashscan.io/testnet/contract/",
+            "View on HashScan: https://hashscan.io/testnet/contract/%s",
             address(token)
         );
+
+        // Get deployment block number for fork testing reference
+        uint256 blockNumber = block.number;
+        console.log("Deployed at block number:", blockNumber);
         console.log("");
         console.log("=== IMPORTANT ===");
         console.log("Save this contract address for your fork tests!");

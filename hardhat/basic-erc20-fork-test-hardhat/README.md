@@ -72,7 +72,7 @@ npm test
 ## Project Structure
 
 ```
-basic-erc20-fork-test/
+basic-erc20-fork-test-hardhat/
 ├── contracts/
 │   └── ERC20Token.sol      # ERC-20 token contract
 ├── scripts/

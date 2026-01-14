@@ -22,7 +22,7 @@ This example covers:
 ## Project Structure
 
 ```
-advanced-hts-fork-test/
+advanced-hts-fork-test-hardhat/
 ├── contracts/
 │   └── HTSTokenManager.sol    # HTS token management contract
 ├── scripts/

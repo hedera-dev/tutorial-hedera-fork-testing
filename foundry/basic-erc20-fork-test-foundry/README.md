@@ -21,7 +21,7 @@ This example covers:
 ## Project Structure
 
 ```
-basic-erc20-fork-test/
+basic-erc20-fork-test-foundry/
 ├── src/
 │   └── ERC20Token.sol         # ERC-20 token contract
 ├── script/
