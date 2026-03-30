@@ -6,9 +6,9 @@ import {ERC20Token} from "../src/ERC20Token.sol";
 
 contract ERC20TokenForkTest is Test {
     // Your deployed testnet contract:
-    // https://hashscan.io/testnet/contract/0xfC7D2FB1D5a9Be5D6182cBf3F283140d007CdcD4
+    // https://hashscan.io/testnet/contract/0x32d7A9613656042CaBCEe98C819999da3B86DEae
     address constant DEPLOYED_CONTRACT =
-        0xfC7D2FB1D5a9Be5D6182cBf3F283140d007CdcD4;
+        0x32d7A9613656042CaBCEe98C819999da3B86DEae;
 
     ERC20Token public token;
     address public owner;

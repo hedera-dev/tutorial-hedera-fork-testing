@@ -111,7 +111,7 @@ forge test --fork-url $HEDERA_RPC_URL -vvv
 Pin to a specific block for reproducible tests:
 
 ```bash
-forge test --fork-url $HEDERA_RPC_URL --fork-block-number 29970059 -vvv
+forge test --fork-url $HEDERA_RPC_URL --fork-block-number 33426353 -vvv
 ```
 
 Example output:
@@ -121,21 +121,33 @@ Ran 15 tests for test/ERC20Token.t.sol:ERC20TokenForkTest
 [PASS] test_AllowOwnerToMint() (gas: 49526)
 [PASS] test_ApproveAndCheckAllowance() (gas: 77316)
 [PASS] test_ConnectedToForkedNetwork() (gas: 3725)
+Logs:
+  Current fork block number: 33426353
+
 [PASS] test_FailTransferFromWithoutApproval() (gas: 53875)
 [PASS] test_FailTransferWithInsufficientBalance() (gas: 16977)
 [PASS] test_HandleMultipleTransfers() (gas: 83137)
 [PASS] test_InteractingWithRealDeployedContract() (gas: 6315)
+Logs:
+  Contract code size: 4380
+
 [PASS] test_ReadDecimals() (gas: 5930)
 [PASS] test_ReadNameAndSymbol() (gas: 18696)
 [PASS] test_ReadOwnerBalance() (gas: 14130)
+Logs:
+  Owner balance: 10000000000000000000000
+
 [PASS] test_ReadTotalSupply() (gas: 11401)
+Logs:
+  Total supply on testnet: 10000000000000000000000
+
 [PASS] test_RejectMintingFromNonOwner() (gas: 14536)
 [PASS] test_TrackSupplyChangesAfterMinting() (gas: 48071)
 [PASS] test_TransferFromAfterApproval() (gas: 112142)
 [PASS] test_TransferFromOwnerToAlice() (gas: 47497)
-Suite result: ok. 15 passed; 0 failed; 0 skipped
+Suite result: ok. 15 passed; 0 failed; 0 skipped; finished in 3.66s (2.22s CPU time)
 
-Ran 1 test suite in 225.61ms:  15 tests passed, 0 failed, 0 skipped
+Ran 1 test suite in 6.34s (3.66s CPU time): 15 tests passed, 0 failed, 0 skipped (15 total tests)
 ```
 
 ## Contract Overview

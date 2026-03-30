@@ -1,0 +1,9 @@
+[submodule "foundry/advanced-hts-fork-test-foundry/lib/openzeppelin-contracts"]
+	path = foundry/advanced-hts-fork-test-foundry/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+[submodule "foundry/advanced-hts-fork-test-foundry/lib/hedera-forking"]
+	path = foundry/advanced-hts-fork-test-foundry/lib/hedera-forking
+	url = https://github.com/hashgraph/hedera-forking
+[submodule "foundry/advanced-hts-fork-test-foundry/lib/forge-std"]
+	path = foundry/advanced-hts-fork-test-foundry/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
