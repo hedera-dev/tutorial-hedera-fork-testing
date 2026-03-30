@@ -30,7 +30,8 @@ advanced-hts-fork-test-foundry/
 ├── script/
 │   └── DeployHTS.s.sol           # Deployment script (deploys manager + creates HTS token)
 ├── test/
-│   └── HTSForkTest.t.sol         # Fork tests with HTS emulation
+│   ├── HTSForkTest.t.sol         # Fork tests with HTS emulation (testnet)
+│   └── SaucerSwapForkTest.t.sol  # Real-world mainnet fork test (SaucerSwap + USDC)
 ├── lib/                          # Dependencies (forge install)
 ├── foundry.toml                  # Foundry configuration (ffi = true required)
 ├── remappings.txt                # Import remappings
@@ -232,6 +233,55 @@ Suite result: ok. 13 passed; 0 failed; 0 skipped; finished in 13.67s (87.31s CPU
 
 Ran 1 test suite in 15.53s (13.67s CPU time): 13 tests passed, 0 failed, 0 skipped (13 total tests)
 ```
+
+## Bonus: Real-World SaucerSwap Mainnet Fork Test
+
+The repo includes a bonus test file `test/SaucerSwapForkTest.t.sol` that demonstrates forking **Hedera mainnet** and interacting with live SaucerSwap V2 contracts and real HTS tokens (WHBAR, USDC).
+
+This showcases one of the most compelling use cases: testing against production DeFi contracts without spending real HBAR.
+
+### Run the SaucerSwap Tests
+
+```bash
+forge test --match-contract SaucerSwapForkTest --fork-url https://mainnet.hashio.io/api -vvv
+```
+
+### What It Tests
+
+| Test | What It Does |
+| ---- | ------------ |
+| `test_ReadWHBARMetadata` | Reads real WHBAR name, symbol, decimals, totalSupply from mainnet |
+| `test_ReadUSDCMetadata` | Reads real USDC (Circle-issued) metadata from mainnet |
+| `test_DealUSDCToTrader` | Uses `deal()` to create 1000 USDC from nothing on the fork |
+| `test_DealWHBARAndTransfer` | Uses `deal()` for WHBAR, then ERC-20 transfer between accounts |
+| `test_SwapWHBARForUSDCViaSaucerSwap` | **Real swap**: 10 WHBAR -> USDC through SaucerSwap V2 at live mainnet pricing |
+| `test_ReadRealMainnetBalances` | Reads the WHBAR contract's own balance from real mainnet state |
+| `test_SaucerSwapRouterExists` | Verifies the SaucerSwap V2 Router has bytecode on the fork |
+| `test_OnMainnetFork` | Verifies chain ID is 295 (Hedera mainnet) |
+
+### How the Real Swap Works
+
+The `test_SwapWHBARForUSDCViaSaucerSwap` test executes a real swap through SaucerSwap V2's `exactInput` function using real liquidity pools on the forked mainnet:
+
+1. `deal(WHBAR, trader, 10e8)` - Creates 10 WHBAR on the fork (no real tokens needed)
+2. `whbar.approve(router, amount)` - Trader approves the SaucerSwap router
+3. `exactInput(path: WHBAR->0.15%->USDC)` - Calls the real router contract with the swap path
+4. The router interacts with the real WHBAR/USDC pool (real liquidity, real pricing)
+5. The trader receives USDC at the current mainnet exchange rate
+
+The test account doesn't need real HBAR or tokens on mainnet. `deal()` creates balances locally, and all swap execution happens on the fork. No mainnet transactions are ever sent.
+
+### Mainnet Addresses Used
+
+| Contract/Token | Hedera ID | EVM Address |
+| -------------- | --------- | ----------- |
+| SaucerSwap V2 Router | `0.0.3949434` | `0x00000000000000000000000000000000003c437A` |
+| WHBAR | `0.0.1456986` | `0x0000000000000000000000000000000000163B5a` |
+| USDC (Native) | `0.0.456858` | `0x000000000000000000000000000000000006f89a` |
+
+> **Source:** [SaucerSwap Contract Deployments](https://docs.saucerswap.finance/developerx/contract-deployments)
+
+---
 
 ## Contract Overview
 
