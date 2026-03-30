@@ -31,7 +31,8 @@ advanced-hts-fork-test-foundry/
 │   └── DeployHTS.s.sol           # Deployment script (deploys manager + creates HTS token)
 ├── test/
 │   ├── HTSForkTest.t.sol         # Fork tests with HTS emulation (testnet)
-│   └── SaucerSwapForkTest.t.sol  # Real-world mainnet fork test (SaucerSwap + USDC)
+│   ├── SaucerSwapForkTest.t.sol  # Real-world mainnet fork test (SaucerSwap swap)
+│   └── BonzoForkTest.t.sol       # Real-world mainnet fork test (Bonzo lending)
 ├── lib/                          # Dependencies (forge install)
 ├── foundry.toml                  # Foundry configuration (ffi = true required)
 ├── remappings.txt                # Import remappings
@@ -280,6 +281,54 @@ The test account doesn't need real HBAR or tokens on mainnet. `deal()` creates b
 | USDC (Native) | `0.0.456858` | `0x000000000000000000000000000000000006f89a` |
 
 > **Source:** [SaucerSwap Contract Deployments](https://docs.saucerswap.finance/developerx/contract-deployments)
+
+---
+
+## Bonus: Bonzo Finance Mainnet Fork Test (Lending/Borrowing)
+
+The repo also includes `test/BonzoForkTest.t.sol` that forks Hedera mainnet and interacts with [Bonzo Finance](https://bonzo.finance/) - an Aave V2 fork and the first lending/borrowing protocol on Hedera.
+
+This test deposits WHBAR as collateral and borrows USDC against it, using real Bonzo contracts with real liquidity (~7M USDC available).
+
+### Run the Bonzo Tests
+
+```bash
+forge test --match-contract BonzoForkTest --fork-url https://mainnet.hashio.io/api -vvv
+```
+
+### What It Tests
+
+| Test | What It Does |
+| ---- | ------------ |
+| `test_DepositWHBAR` | Deposits 5000 WHBAR as collateral, receives aWHBAR tokens |
+| `test_DepositWHBARAndBorrowUSDC` | Full flow: deposit WHBAR collateral, check account data, borrow 10 USDC, verify debt |
+| `test_ReadBonzoUSDCLiquidity` | Reads real USDC liquidity available in Bonzo (~7M USDC) |
+| `test_LendingPoolExists` | Verifies the LendingPool has bytecode |
+| `test_OnMainnetFork` | Confirms chain ID 295 |
+
+### How the Deposit + Borrow Works
+
+1. `deal(WHBAR, depositor, 5000e8)` - Creates 5000 WHBAR on the fork
+2. `whbar.approve(LENDING_POOL, amount)` - Approve LendingPool to pull WHBAR
+3. `LendingPool.deposit(WHBAR, amount, depositor, 0)` - Deposit WHBAR as collateral
+4. Depositor receives aWHBAR tokens (interest-bearing deposit receipt)
+5. `LendingPool.getUserAccountData(depositor)` - Check collateral value, LTV, borrowing capacity
+6. `LendingPool.borrow(USDC, 10e6, 2, 0, depositor)` - Borrow 10 USDC at variable rate
+7. Depositor receives USDC and a variable debt token position is created
+
+The LendingPool uses Bonzo's real oracle pricing to calculate collateral value, LTV ratios, and health factors - all against production state.
+
+### Bonzo Mainnet Addresses
+
+| Contract/Token | Address |
+| -------------- | ------- |
+| LendingPool | `0x236897c518996163E7b313aD21D1C9fCC7BA1afc` |
+| WHBAR | `0x0000000000000000000000000000000000163B5a` (0.0.1456986) |
+| USDC | `0x000000000000000000000000000000000006f89a` (0.0.456858) |
+| aWHBAR | `0x6e96a607F2F5657b39bf58293d1A006f9415aF32` |
+| Variable Debt USDC | `0x8a90C2f80Fc266e204cb37387c69EA2ed42A3cc1` |
+
+> **Source:** [Bonzo Lend Contracts](https://docs.bonzo.finance/hub/developer/bonzo-lend/lend-contracts)
 
 ---
 
