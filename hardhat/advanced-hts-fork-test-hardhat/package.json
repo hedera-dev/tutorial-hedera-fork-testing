@@ -5,7 +5,10 @@
   "private": true,
   "scripts": {
     "compile": "hardhat compile",
-    "test": "hardhat test",
+    "test": "hardhat test test/HTSTokenManager.test.ts",
+    "test:saucerswap": "HARDHAT_CONFIG=hardhat.config.mainnet.ts hardhat test test/SaucerSwapForkTest.test.ts",
+    "test:bonzo": "HARDHAT_CONFIG=hardhat.config.mainnet.ts hardhat test test/BonzoForkTest.test.ts",
+    "test:mainnet": "HARDHAT_CONFIG=hardhat.config.mainnet.ts hardhat test test/SaucerSwapForkTest.test.ts test/BonzoForkTest.test.ts",
     "deploy:testnet": "hardhat run scripts/deploy.ts --network hederaTestnet"
   },
   "license": "MIT",

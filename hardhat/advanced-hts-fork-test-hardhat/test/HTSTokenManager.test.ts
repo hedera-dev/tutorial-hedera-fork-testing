@@ -3,7 +3,7 @@ import { ethers, network } from "hardhat";
 import { loadFixture } from "@nomicfoundation/hardhat-toolbox/network-helpers";
 import { HTSTokenManager } from "../typechain-types";
 import { HardhatEthersSigner } from "@nomicfoundation/hardhat-ethers/signers";
-import { ContractTransactionReceipt } from 'ethers';
+import { ContractTransactionReceipt } from "ethers";
 
 // HTS Success response code
 const SUCCESS = 22n;
@@ -12,18 +12,13 @@ describe("HTSTokenManager - HTS Forking Tests", function () {
   // Increase timeout for network operations
   this.timeout(120000);
 
-  // Add delay between tests to avoid rate limiting
-  afterEach(async function () {
-    await new Promise((resolve) => setTimeout(resolve, 1000)); // 1 second delay
-  });
-
   // ============================================
   // UPDATE THESE VALUES AFTER RUNNING deploy.ts
   // ============================================
   // Your deployed testnet contract address
-  const DEPLOYED_CONTRACT = "0x525F2a20563A052F7dC65df59106EC82f0584102";
+  const DEPLOYED_CONTRACT = "0xaaFBdC3b206F6EEd7F3f71fFAb27869C7E46D5e4";
   // The HTS token created during deployment
-  const TOKEN_ADDRESS = "0x000000000000000000000000000000000073E8dC";
+  const TOKEN_ADDRESS = "0x000000000000000000000000000000000080FDF2";
   // ============================================
 
   let htsManager: HTSTokenManager;
@@ -77,7 +72,9 @@ describe("HTSTokenManager - HTS Forking Tests", function () {
   /**
    * Helper function to get response code from receipt
    */
-  function getResponseCodeFromReceipt(receipt: ContractTransactionReceipt | null): bigint | null {
+  function getResponseCodeFromReceipt(
+    receipt: ContractTransactionReceipt | null
+  ): bigint | null {
     const responseEvent = receipt?.logs.find((log: any) => {
       try {
         const parsed = htsManager.interface.parseLog({

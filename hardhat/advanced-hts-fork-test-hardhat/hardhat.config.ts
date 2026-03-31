@@ -21,7 +21,11 @@ const config: HardhatUserConfig = {
     hederaTestnet: {
       url: HEDERA_RPC_URL,
       accounts: [HEDERA_PRIVATE_KEY],
-      chainId: 296
+      chainId: 296,
+      // Hedera requires explicit gas settings - default estimation often fails
+      // with INSUFFICIENT_TX_FEE
+      gasPrice: 1_100_000_000_000, // 1100 gwei - above Hedera's configured minimum
+      gas: 3_000_000
     },
     // Local fork of testnet for testing
     hardhat: {
@@ -29,7 +33,7 @@ const config: HardhatUserConfig = {
         url: HEDERA_RPC_URL,
         // Pin to a specific block for reproducible tests
         // Update this after deploying your contract
-        blockNumber: 29968809,
+        blockNumber: 33462232,
         // @ts-ignore - custom properties for hedera-forking plugin
         chainId: 296,
         // @ts-ignore

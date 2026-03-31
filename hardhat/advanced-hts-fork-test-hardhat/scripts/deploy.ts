@@ -9,9 +9,14 @@ async function main(): Promise<void> {
   console.log("Account balance:", ethers.formatEther(balance), "HBAR");
 
   // 1) Deploy the HTSTokenManager contract
+  // Hedera's JSON-RPC relay can fail on eth_estimateGas with INSUFFICIENT_TX_FEE,
+  // so we provide explicit gas settings to bypass estimation.
   console.log("\n--- Deploying HTSTokenManager ---");
   const HTSTokenManager = await ethers.getContractFactory("HTSTokenManager");
-  const htsManager = await HTSTokenManager.deploy();
+  const htsManager = await HTSTokenManager.deploy({
+    gasLimit: 3_000_000,
+    gasPrice: ethers.parseUnits("1100", "gwei")
+  });
   await htsManager.waitForDeployment();
 
   const contractAddress = await htsManager.getAddress();
